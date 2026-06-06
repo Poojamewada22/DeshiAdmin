@@ -1,27 +1,33 @@
 "use client";
 
+import { useState } from "react";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
 
-interface Props {
-  children: React.ReactNode;
-}
-
 export default function DashboardLayout({
   children,
-}: Props) {
+}: {
+  children: React.ReactNode;
+}) {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
-    <div className="flex min-h-screen bg-[#f5f5f5]">
+    <div className="flex min-h-screen bg-[#f5f7fa]">
+      <Sidebar
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+      />
 
-      <Sidebar />
+      <div className="flex-1 min-w-0">
+        <Navbar
+          toggleSidebar={() =>
+            setSidebarOpen(!sidebarOpen)
+          }
+        />
 
-      <div className="flex-1">
-
-        <Navbar />
-
-        <div className="p-8">
+        <main className="p-4 md:p-6 lg:p-8">
           {children}
-        </div>
+        </main>
       </div>
     </div>
   );
